@@ -1,35 +1,13 @@
+# managed by smoochy/homelab-private apply_baseline.py — do not edit manually
 version: 2
 updates:
-  - package-ecosystem: npm
-    directory: /
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: monthly
-    groups:
-      minor-and-patch:
-        patterns:
-          - "*"
-        update-types:
-          - minor
-          - patch
-      major:
-        patterns:
-          - "*"
-        update-types:
-          - major
-
-  - package-ecosystem: github-actions
-    directory: /
+      interval: "weekly"
+    open-pull-requests-limit: 0
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: monthly
-    groups:
-      minor-and-patch:
-        patterns:
-          - "*"
-        update-types:
-          - minor
-          - patch
-      major:
-        patterns:
-          - "*"
-        update-types:
-          - major
+      interval: "weekly"
+    open-pull-requests-limit: 0
