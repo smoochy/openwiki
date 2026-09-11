@@ -1094,7 +1094,18 @@ export function createModel(
       : { maxOutputTokens: configuredMaxOutputTokens };
   const streamIdleTimeoutOptions =
     streamIdleTimeout === undefined ? {} : { streamIdleTimeout };
-  const reasoningConfig = resolveReasoningConfig(provider, modelId);
+  const chatOpenAiUsesResponsesApi = providerUsesResponsesApi(
+    provider,
+    modelId,
+  );
+  const reasoningConfig = resolveReasoningConfig(
+    provider,
+    modelId,
+    process.env,
+    {
+      useResponsesApi: chatOpenAiUsesResponsesApi,
+    },
+  );
 
   // GPT-5.6 supports `max` before some OpenAI SDK type unions include it. The
   // documented Responses payload is still `reasoning: { effort }`, so keep the
@@ -1107,6 +1118,10 @@ export function createModel(
     reasoningConfig?.transport === "chat-completions-reasoning-effort"
       ? { modelKwargs: { reasoning_effort: reasoningConfig.effort } }
       : {};
+  const geminiThinkingLevelOptions =
+    reasoningConfig?.transport === "gemini-thinking-level"
+      ? { thinkingLevel: reasoningConfig.effort }
+      : {};
 
   if (provider === "gemini") {
     return new ChatGoogle({
@@ -1115,6 +1130,7 @@ export function createModel(
       platformType: "gai",
       // Gemini 3.x thought-signature round-trip; see the constant's comment.
       ...GEMINI_THOUGHT_SIGNATURE_OPTIONS,
+      ...geminiThinkingLevelOptions,
       ...googleMaxOutputTokensOptions,
       ...retryOptions,
     });
@@ -1234,7 +1250,7 @@ export function createModel(
         }
       : undefined,
     model: modelId,
-    useResponsesApi: providerUsesResponsesApi(provider, modelId),
+    useResponsesApi: chatOpenAiUsesResponsesApi,
     ...maxTokensOptions,
     ...responsesReasoningOptions,
     ...chatCompletionsReasoningOptions,

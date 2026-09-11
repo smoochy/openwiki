@@ -432,6 +432,15 @@ OPENWIKI_OPENAI_COMPATIBLE_STREAMING=true
 
 It stays off by default because this provider points at arbitrary third-party endpoints, where SSE is not guaranteed to survive proxies and load balancers. Enabling it also makes the client report estimated rather than server-reported token counts.
 
+**Reasoning-capable gateways.** OpenAI-compatible endpoints are user-supplied, so OpenWiki does not assume that an arbitrary model supports reasoning controls. If your gateway accepts OpenAI-style reasoning effort, opt in explicitly before setting `OPENWIKI_REASONING_EFFORT`:
+
+```bash
+OPENWIKI_OPENAI_COMPATIBLE_REASONING_EFFORT_SUPPORTED=true
+OPENWIKI_REASONING_EFFORT=high
+```
+
+When `OPENWIKI_OPENAI_COMPATIBLE_USE_RESPONSES_API=true` is also set, the effort is sent through the Responses API reasoning field. Otherwise it is sent as the chat-completions `reasoning_effort` model argument.
+
 </details>
 
 <details>
@@ -475,7 +484,7 @@ The OpenRouter-specific setting takes precedence over `OPENWIKI_MAX_OUTPUT_TOKEN
 
 **Bedrock stream idle timeout.** For the Bedrock provider, set `OPENWIKI_STREAM_IDLE_TIMEOUT` to control how long the client waits for the first or next streamed response chunk, for example `OPENWIKI_STREAM_IDLE_TIMEOUT=300000`. The value is milliseconds and must be an integer from `0` to `2147483647`. Set it to `0` to disable the watchdog. If unset, OpenWiki preserves the `@langchain/aws` provider default. Prefer a sufficiently long finite timeout over disabling the watchdog so a stalled stream cannot hang forever.
 
-**Reasoning effort.** Set `OPENWIKI_REASONING_EFFORT` to configure reasoning for a supported provider and model. OpenAI GPT-5.6 models use the Responses API values `none`, `low`, `medium`, `high`, `xhigh`, and `max`. NVIDIA NIM's Nemotron 3 Super supports `none`, `low`, and `high`. In an interactive chat, use `/effort` to choose an available value or `/effort default` to restore the provider default. Leave the variable unset to preserve the provider default; invalid provider, model, or effort combinations fail before a request is sent.
+**Reasoning effort.** Set `OPENWIKI_REASONING_EFFORT` to configure reasoning for a supported provider and model. OpenAI GPT-5.6 models use the Responses API values `none`, `low`, `medium`, `high`, `xhigh`, and `max`. Gemini 3.6 Flash maps `low`, `medium`, and `high` to Gemini's thinking level. NVIDIA NIM's Nemotron 3 Super supports `none`, `low`, and `high`. In an interactive chat, use `/effort` to choose an available value or `/effort default` to restore the provider default. Leave the variable unset to preserve the provider default; invalid provider, model, or effort combinations fail before a request is sent.
 
 </details>
 
