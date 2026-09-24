@@ -28,10 +28,10 @@ sources:
     resource: repo://test/agent/bob.test.ts
   - id: openwiki-source-21fe6d4741a8225393c37599
     resource: repo://test/agent/create-model.test.ts
-generated: { by: "openwiki/0.5.2", at: "2026-09-22T08:09:45.637Z" }
+generated: { by: "openwiki/0.5.2", at: "2026-09-23T08:09:37.122Z" }
 verified:
   - by: openwiki/0.5.2
-    at: 2026-09-22T08:09:45.637Z
+    at: 2026-09-23T08:09:37.122Z
 ---
 
 # Model Providers and Credentials
@@ -217,11 +217,11 @@ surface; `createGeminiEnterpriseModel` selects the transport per model ID via
 - `openai-maas` — partner/open-weight models (Llama, Mistral, DeepSeek, Qwen, Grok, …) over Vertex's OpenAI-compatible endpoint, whose base URL is built by `vertexOpenAIBaseUrl`.
 
 `resolveVertexSurface` classifies the model ID by family, not provider: an
-`anthropic`/`claude` token routes to the Anthropic surface, and an
-`xai`/`grok` token (alongside `llama`, `meta`, `mistral`, `qwen`, `deepseek`,
-`ai21`, `jamba`, and `codellama`) routes to the openai-maas surface; anything
-else defaults to `gemini`. The patterns tolerate both bare IDs and
-publisher-pathed IDs.
+`anthropic`/`claude` token routes to the Anthropic surface, and a token from
+the openai-maas family (`ai21`, `codellama`, `codestral`, `deepseek`, `grok`,
+`jamba`, `llama`, `meta`, `mistral`, `qwen`, `xai`) routes to the openai-maas
+surface; anything else defaults to `gemini`. The patterns tolerate both bare
+IDs and publisher-pathed IDs.
 
 ```mermaid
 flowchart TD
