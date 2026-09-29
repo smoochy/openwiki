@@ -73,10 +73,10 @@ MCP server plus a shared skill bundle into each host's own configuration.
 This page documents the protocol operations, the divided ownership of research
 versus finalization, repository-root resolution, install/uninstall mechanics, and
 the scope model. For the internal generation engine these tools drive, see
-[Repository generation workflow](/openwiki/workflows/repository-generation.md)
-and [Architecture overview](/openwiki/architecture/overview.md). For the
+[Repository generation workflow](../workflows/repository-generation.md)
+and [Architecture overview](../architecture/overview.md). For the
 `openwiki mcp` and `openwiki integrations` commands, see the
-[CLI reference](/openwiki/operations/cli-reference.md).
+[CLI reference](../operations/cli-reference.md).
 
 > Note: This is the **host integration** path. It is unrelated to the
 > `write-connector` skill, which adds a new _source connector_ for ingesting
@@ -262,10 +262,10 @@ bundle) and a **managed MCP server entry** in the host's config file. The
 registry of supported hosts. Each entry declares its display name, provenance
 actor, per-scope skill directory and MCP config, and a documentation URL:
 
-- **IBM Bob** — `.bob/mcp.json` (`json`) at both user and project scope, skill
-  under `.agents/skills/openwiki` at both scopes; `producerActor` `bob`. IBM Bob
-  additionally ships an agent manifest at
-  `integrations/openwiki/agents/bob.yaml` (`display_name`, `short_description`,
+- **IBM Bob** — user config at `.bob/settings/mcp.json` and project at
+  `.bob/mcp.json` (`json`); skill under `.agents/skills/openwiki` at
+  both scopes; `producerActor` `bob`. IBM Bob additionally ships an agent manifest
+  at `integrations/openwiki/agents/bob.yaml` (`display_name`, `short_description`,
   `default_prompt`) consumed by the Bob host to surface the OpenWiki agent.
 - **Codex** — `.codex/config.toml` (`codex-toml`), skill under
   `.agents/skills/openwiki`, at both user and project scope; `producerActor`
