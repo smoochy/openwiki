@@ -291,6 +291,8 @@ Each worker owns exactly one page, and completed pages remain durable resume uni
 
 LangChain handles transient provider errors. Retry attempts default to `3`, or `5` when `OPENWIKI_PAGE_CONCURRENCY` is above `1`. Override with `OPENWIKI_PROVIDER_RETRY_ATTEMPTS=3` (a positive integer).
 
+With LangSmith tracing on, the planner and each page worker are separate traces, grouped into one LangSmith thread per run. The thread id is the run's id, which a resumed run keeps; set `OPENWIKI_TRACE_THREAD_ID` to choose it yourself, for example from CI so a run's thread can be found from the commit that triggered it.
+
 </details>
 
 <a id="local-state-directory"></a>

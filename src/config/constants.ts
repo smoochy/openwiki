@@ -88,6 +88,11 @@ export const DEFAULT_PAGE_CONCURRENCY = 1;
  * provider key is rate-limit bound and the progress view stops being readable.
  */
 export const MAX_PAGE_CONCURRENCY = 8;
+/**
+ * Overrides the LangSmith thread one repository run's traces are grouped under,
+ * so CI can name it after the change that caused the run.
+ */
+const OPENWIKI_TRACE_THREAD_ID_ENV_KEY = "OPENWIKI_TRACE_THREAD_ID";
 export const DEFAULT_ANTHROPIC_MAX_OUTPUT_TOKENS = 16_384;
 const TRUE_ENV_VALUE = "true";
 export const OPENWIKI_GOOGLE_ACCESS_TOKEN_ENV_KEY =
@@ -1024,6 +1029,22 @@ export function resolveStreamIdleTimeoutForProvider(
   env: NodeJS.ProcessEnv = process.env,
 ): number | undefined {
   return provider === "bedrock" ? resolveStreamIdleTimeout(env) : undefined;
+}
+
+/**
+ * Resolves the LangSmith thread id shared by one repository run's planner and
+ * page workers, so their separate traces group into one thread.
+ *
+ * @param runId - The durable run's id, stable across a resumed run.
+ * @param env - Process environment to read.
+ * @returns The trimmed override when set and non-empty, else `runId`.
+ */
+export function resolveTraceThreadId(
+  runId: string,
+  env: NodeJS.ProcessEnv = process.env,
+): string {
+  const override = env[OPENWIKI_TRACE_THREAD_ID_ENV_KEY]?.trim();
+  return override ? override : runId;
 }
 
 /**
